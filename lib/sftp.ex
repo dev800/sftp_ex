@@ -141,6 +141,15 @@ defmodule Sftp do
     ManagementService.make_directory(connection, remote_path)
   end
 
+  def mkdir_p(connection, remote_path) do
+    remote_path
+    |> String.split("/")
+    |> Enum.reduce("/", fn(folder, acc) ->
+      acc = acc <> folder <> "/"
+      mkdir(connection, acc)
+      acc
+    end)
+  end
 
   @doc """
    Types:
