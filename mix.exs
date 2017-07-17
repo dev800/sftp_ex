@@ -1,4 +1,4 @@
-defmodule SftpEx.Mixfile do
+defmodule Sftp.Mixfile do
   use Mix.Project
 
   def project do
@@ -12,8 +12,8 @@ defmodule SftpEx.Mixfile do
      package: package(),
     #docs
     name: "sftp",
-    source_url: "https://github.com/gialib/sftp_ex.git",
-    docs: [main: "SftpEx", # The main page in the docs
+    source_url: "https://github.com/gialib/sftp.git",
+    docs: [main: "Sftp", # The main page in the docs
            extras: ["README.md"]]]
   end
 
@@ -29,6 +29,6 @@ defmodule SftpEx.Mixfile do
   defp package do
     [maintainers: ["Michael Dorman"],
      licenses: ["MIT"],
-     links: %{github: "https://github.com/gialib/sftp_ex.git"}]
+     links: %{github: "https://github.com/gialib/sftp.git"}]
   end
 end

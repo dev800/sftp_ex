@@ -51,7 +51,7 @@ defmodule SFTP.AccessService do
     end
   end
 
-  defp create_file(connection, path) do
+  def create_file(connection, path) do
     open_file(connection, path, [:creat])
   end
 end
