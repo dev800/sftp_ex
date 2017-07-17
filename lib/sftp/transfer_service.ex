@@ -1,10 +1,10 @@
-require SftpEx.Helpers, as: S
+require Sftp.Helpers, as: S
 
 defmodule SFTP.TransferService do
   @moduledoc """
   Provides data transfer related functions
   """
-  @sftp Application.get_env(:sftp_ex, :sftp_service, SFTP.Service)
+  @sftp Application.get_env(:sftp, :sftp_service, SFTP.Service)
 
   @doc """
   Similar to IO.each_binstream this returns a tuple with the data

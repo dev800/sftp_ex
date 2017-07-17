@@ -1,11 +1,11 @@
-require SftpEx.Helpers, as: S
+require Sftp.Helpers, as: S
 
 defmodule SFTP.ConnectionService do
   @moduledoc """
     Provides methods related to starting and stopping an SFTP connection
   """
-  @ssh Application.get_env(:sftp_ex, :ssh_service, SSH.Service)
-  @sftp Application.get_env(:sftp_ex, :sftp_service, SFTP.Service)
+  @ssh Application.get_env(:sftp, :ssh_service, SSH.Service)
+  @sftp Application.get_env(:sftp, :sftp_service, SFTP.Service)
 
   @doc """
   Stops a SFTP channel and closes the SSH connection.

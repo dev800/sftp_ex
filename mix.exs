@@ -2,7 +2,7 @@ defmodule SftpEx.Mixfile do
   use Mix.Project
 
   def project do
-    [app: :sftp_ex,
+    [app: :sftp,
      version: "0.2.3",
      elixir: "~> 1.3",
      build_embedded: Mix.env == :prod,
@@ -11,8 +11,8 @@ defmodule SftpEx.Mixfile do
      description: "A simple SFTP Elixir library",
      package: package(),
     #docs
-    name: "sftp_ex",
-    source_url: "https://github.com/mikejdorm/sftp_ex",
+    name: "sftp",
+    source_url: "https://github.com/gialib/sftp_ex.git",
     docs: [main: "SftpEx", # The main page in the docs
            extras: ["README.md"]]]
   end
@@ -29,6 +29,6 @@ defmodule SftpEx.Mixfile do
   defp package do
     [maintainers: ["Michael Dorman"],
      licenses: ["MIT"],
-     links: %{github: "https://github.com/mikejdorm/sftp_ex"}]
+     links: %{github: "https://github.com/gialib/sftp_ex.git"}]
   end
 end

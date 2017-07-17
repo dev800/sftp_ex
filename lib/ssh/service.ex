@@ -1,4 +1,4 @@
-require SftpEx.Helpers, as: S
+require Sftp.Helpers, as: S
 require Logger
 defmodule SSH.Service do
   @moduledoc """

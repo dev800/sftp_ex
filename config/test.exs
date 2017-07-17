@@ -8,5 +8,5 @@ Path.wildcard("test/sftp/*mock*")
 Path.wildcard("test/ssh/*mock*")
 |> Enum.each(&Code.require_file("../#{&1}", __DIR__))
 
-config :sftp_ex, :ssh_service, SSH.ServiceMock
-config :sftp_ex, :sftp_service, SFTP.ServiceMock
+config :sftp, :ssh_service, SSH.ServiceMock
+config :sftp, :sftp_service, SFTP.ServiceMock

@@ -10,11 +10,11 @@ use Mix.Config
 
 # You can configure for your application as:
 #
-#     config :sftp_ex, key: :value
+#     config :sftp, key: :value
 #
 # And access this configuration in your application as:
 #
-#     Application.get_env(:sftp_ex, :key)
+#     Application.get_env(:sftp, :key)
 #
 # Or configure a 3rd-party app:
 #
@@ -29,5 +29,5 @@ config :logger, level: :info
 #
 import_config "#{Mix.env}.exs"
 
-#config :sftp_ex, :ssh_service, SSH.ServiceMock
-#config :sftp_ex, :sftp_service, SFTP.ServiceMock
+#config :sftp, :ssh_service, SSH.ServiceMock
+#config :sftp, :sftp_service, SFTP.ServiceMock

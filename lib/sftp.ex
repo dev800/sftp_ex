@@ -1,4 +1,4 @@
-defmodule SftpEx do
+defmodule Sftp do
   @moduledoc """
   Functions for transferring and managing files through SFTP
   """
@@ -13,11 +13,11 @@ defmodule SftpEx do
                   port: 22]
 
   def logging_functions do
-    [disconnectfun: &SftpEx.Helpers.log_disconnect_func/1,
-     unexpectedfun: &SftpEx.Helpers.log_unexpected_func/2,
-     ssh_msg_debug_fun: &SftpEx.Helpers.ssh_msg_debug_fun/4,
-     failfun: &SftpEx.Helpers.log_ssh_fail_func/3,
-     connectfun: &SftpEx.Helpers.connect_log_func/3]
+    [disconnectfun: &Sftp.Helpers.log_disconnect_func/1,
+     unexpectedfun: &Sftp.Helpers.log_unexpected_func/2,
+     ssh_msg_debug_fun: &Sftp.Helpers.ssh_msg_debug_fun/4,
+     failfun: &Sftp.Helpers.log_ssh_fail_func/3,
+     connectfun: &Sftp.Helpers.connect_log_func/3]
   end
 
   @doc """
@@ -81,14 +81,14 @@ defmodule SftpEx do
     An example of writing a file to a server is the following.
 
     stream = File.stream!("filename.txt")
-        |> Stream.into(SftpEx.stream!(connection,"/home/path/filename.txt"))
+        |> Stream.into(Sftp.stream!(connection,"/home/path/filename.txt"))
         |> Stream.run
 
     This follows the same pattern as Elixir IO streams so a file can be transferred
     from one server to another via SFTP as follows.
 
-    stream = SftpEx.stream!(connection,"/home/path/filename.txt")
-    |> Stream.into(SftpEx.stream!(connection2,"/home/path/filename.txt"))
+    stream = Sftp.stream!(connection,"/home/path/filename.txt")
+    |> Stream.into(Sftp.stream!(connection2,"/home/path/filename.txt"))
     |> Stream.run
 
     Types:
@@ -235,7 +235,7 @@ defmodule SftpEx do
   end
 end
 
-defmodule SftpEx.Helpers do
+defmodule Sftp.Helpers do
   require Logger
 
   @moduledoc false
