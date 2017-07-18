@@ -7,10 +7,15 @@ defmodule SFTP.ManagementService do
   @sftp Application.get_env(:sftp, :sftp_service, SFTP.Service)
   alias SFTP.AccessService
 
-  def make_directory(connection, remote_path) do
+  def make_directory(connection, remote_path, opts \\ []) do
     case @sftp.make_directory(connection, remote_path) do
       :ok -> :ok
-      e -> S.handle_error(e)
+      e ->
+        if Keyword.get(opts, :handle_error, true) do
+          S.handle_error([__MODULE__, :make_directory], e)
+        else
+          e
+        end
     end
   end
 
@@ -52,17 +57,20 @@ defmodule SFTP.ManagementService do
   Lists files in a directory
   """
   def list_files(connection, remote_path) do
-      case AccessService.file_info(connection, remote_path) do
-        {:ok, file_info} -> case file_info.type do
-          :directory -> case @sftp.list_dir(connection, remote_path) do
-            {:ok, file_list} -> Enum.filter(file_list,
-              fn(file_name) -> file_name != '.' && file_name != '..' end)
-             e -> S.handle_error(e)
-           end
-           _ -> {:error, "Remote path is not a directory"}
-         end
-         e -> S.handle_error(e)
+    case AccessService.file_info(connection, remote_path) do
+      {:ok, file_info} -> case file_info.type do
+        :directory -> case @sftp.list_dir(connection, remote_path) do
+          {:ok, file_list} ->
+            Enum.filter(
+              file_list,
+              fn(file_name) -> file_name != '.' && file_name != '..' end
+            )
+          e -> S.handle_error([__MODULE__, :list_files], e)
+        end
+        _ -> {:error, "Remote path is not a directory"}
       end
+      e -> S.handle_error([__MODULE__, :list_files], e)
+    end
   end
 
   @doc """
@@ -74,14 +82,14 @@ defmodule SFTP.ManagementService do
   end
 
   defp remove_all_files(connection, directory) do
-     case list_files(connection, directory) do
+    case list_files(connection, directory) do
       {:ok, filenames} -> Enum.map(filenames, remove_file(connection, &(&1)))
-      e -> S.handle_error(e)
-     end
+      e -> S.handle_error([__MODULE__, :remove_all_files], e)
+    end
   end
 
   def truncate_file(connection, remote_path, bytes) do
-   #TODO
+   # TODO
    [connection, remote_path, bytes]
   end
 end

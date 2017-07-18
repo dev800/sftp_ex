@@ -65,11 +65,13 @@ defmodule Sftp do
     Returns {:ok, Connection}, or {:error, reason}
   """
   def connect(opts) do
-      opts = opts |> Keyword.merge(@default_opts)
-                  |> Keyword.merge(logging_functions())
-     own_keys = [:host, :port]
-     ssh_opts = opts |> Enum.filter(fn({k,_})-> not (k in own_keys) end)
-     ConnectionService.connect(opts[:host], opts[:port], ssh_opts)
+    opts =
+      opts
+      |> Keyword.merge(@default_opts)
+      |> Keyword.merge(logging_functions())
+    own_keys = [:host, :port]
+    ssh_opts = opts |> Enum.filter(fn({k,_})-> not (k in own_keys) end)
+    ConnectionService.connect(opts[:host], opts[:port], ssh_opts)
   end
 
   @doc """
@@ -98,7 +100,7 @@ defmodule Sftp do
     Returns SFTP.Stream
   """
   def stream!(connection, remote_path, byte_size \\ 32768) do
-       SFTP.Stream.__build__(connection, remote_path,  byte_size)
+    SFTP.Stream.__build__(connection, remote_path,  byte_size)
   end
 
   @doc """
@@ -137,16 +139,17 @@ defmodule Sftp do
 
     Returns :ok, or {:error, reason}
   """
-  def mkdir(connection, remote_path) do
-    ManagementService.make_directory(connection, remote_path)
+  def mkdir(connection, remote_path, opts \\ []) do
+    ManagementService.make_directory(connection, remote_path, opts)
   end
 
-  def mkdir_p(connection, remote_path) do
+  def mkdir_p(connection, remote_path, opts \\ []) do
     remote_path
     |> String.split("/")
+    |> Enum.filter(fn(folder) -> folder != "" end)
     |> Enum.reduce("/", fn(folder, acc) ->
       acc = acc <> folder <> "/"
-      mkdir(connection, acc)
+      mkdir(connection, acc, opts)
       acc
     end)
   end
@@ -249,8 +252,8 @@ defmodule Sftp.Helpers do
 
   @moduledoc false
 
-  def handle_error(e) do
-    Logger.error "#{inspect e}"
+  def handle_error(args, e) do
+    Logger.error "#{inspect args} #{inspect e}"
     e
   end
 

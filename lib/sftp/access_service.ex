@@ -12,7 +12,7 @@ defmodule SFTP.AccessService do
   def close(connection, handle, _path \\ '') do
     case @sftp.close(connection, handle) do
       :ok -> :ok
-      e -> S.handle_error(e)
+      e -> S.handle_error([__MODULE__, :close], e)
     end
   end
 
@@ -22,7 +22,7 @@ defmodule SFTP.AccessService do
   def file_info(connection, remote_path) do
     case @sftp.read_file_info(connection, remote_path) do
       {:ok, file_info} -> {:ok, File.Stat.from_record(file_info)}
-      e -> S.handle_error(e)
+      e -> S.handle_error([__MODULE__, :file_info], e)
     end
   end
 
@@ -36,7 +36,7 @@ defmodule SFTP.AccessService do
         :directory -> open_dir(connection, path)
         _ -> open_file(connection, path, mode)
       end
-      e -> S.handle_error(e)
+      e -> S.handle_error([__MODULE__, :open], e)
     end
   end
 
@@ -47,7 +47,7 @@ defmodule SFTP.AccessService do
   def open_dir(connection, remote_path) do
     case @sftp.open_directory(connection, remote_path) do
       {:ok, handle} -> {:ok, handle}
-      e -> S.handle_error(e)
+      e -> S.handle_error([__MODULE__, :open_dir], e)
     end
   end
 
