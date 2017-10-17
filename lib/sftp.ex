@@ -67,9 +67,17 @@ defmodule Sftp do
   def connect(opts) do
      opts = opts |> Keyword.merge(@default_opts)
      own_keys = [:host, :port]
-     ssh_opts = opts |> Enum.filter(fn({k,_})-> not (k in own_keys) end)
-     ConnectionService.connect(opts[:host], opts[:port], ssh_opts)
+     ssh_opts =
+       opts
+       |> Enum.filter(fn({k,_}) -> not (k in own_keys) end)
+       |> Enum.map(fn({k, v}) -> {k, impl_get_opts_value(v)} end)
+     ConnectionService.connect(impl_get_opts_value(opts[:host]), impl_get_opts_value(opts[:port]), ssh_opts)
   end
+
+  defp impl_get_opts_value(value) when is_binary(value) do
+    String.to_charlist(value)
+  end
+  defp impl_get_opts_value(value), do: value
 
   @doc """
     Creates an SFTP stream by opening an SFTP connection and opening a file
