@@ -24,7 +24,7 @@ defmodule SFTP.ConnectionService do
   Returns {:ok, Connection}, or {:error, reason}
   """
   def connect(host, port, opts) do
-    Logger.info(inspect[__MODULE__, :conn, host, port, opts])
+    Logger.info(inspect([__MODULE__, :conn, host, port, opts]))
 
     @ssh.start()
     case  @sftp.start_channel(host, port, opts) do
