@@ -12,7 +12,7 @@ defmodule Sftp.Mixfile do
      package: package(),
     #docs
     name: "sftp",
-    source_url: "https://github.com/gialib/sftp.git",
+    source_url: "https://github.com/gialib/sftp_ex",
     docs: [main: "Sftp", # The main page in the docs
            extras: ["README.md"]]]
   end
@@ -29,6 +29,6 @@ defmodule Sftp.Mixfile do
   defp package do
     [maintainers: ["Michael Dorman"],
      licenses: ["MIT"],
-     links: %{github: "https://github.com/gialib/sftp.git"}]
+     links: %{github: "https://github.com/gialib/sftp_ex"}]
   end
 end
