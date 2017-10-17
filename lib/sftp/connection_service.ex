@@ -7,6 +7,8 @@ defmodule SFTP.ConnectionService do
   @ssh Application.get_env(:sftp, :ssh_service, SSH.Service)
   @sftp Application.get_env(:sftp, :sftp_service, SFTP.Service)
 
+  require Logger
+
   @doc """
   Stops a SFTP channel and closes the SSH connection.
 
@@ -22,6 +24,8 @@ defmodule SFTP.ConnectionService do
   Returns {:ok, Connection}, or {:error, reason}
   """
   def connect(host, port, opts) do
+    Logger.info(inspect[__MODULE__, :conn, host, port, opts])
+
     @ssh.start()
     case  @sftp.start_channel(host, port, opts) do
       {:ok, channel_pid, connection_ref} -> {:ok, SFTP.Connection.__build__(channel_pid, connection_ref, host, port, opts)}
