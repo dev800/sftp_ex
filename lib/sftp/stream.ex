@@ -35,6 +35,10 @@ defmodule SFTP.Stream do
   end
 
   defimpl Enumerable do
+    def slice(_stream) do
+      {:error, __MODULE__}
+    end
+
     def reduce(%{connection: connection, path: path, byte_length: byte_length}, acc, fun) do
       start_function =
         fn ->
